@@ -74,15 +74,17 @@
         /* Countdown Grid */
         .countdown {
             display: grid;
-            grid-template-columns: repeat(4, 15fr);
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
         }
 
         .time-box {
             background: rgba(255, 255, 255, 0.5);
-            padding: 15px 10px;
+            padding: 15px 5px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
         }
 
         .number {
@@ -100,12 +102,36 @@
             font-weight: 600;
             opacity: 0.7;
         }
+    
+        @media (max-width: 480px) {
+    .container {
+        padding: 25px 15px; /* Give the container more room on small screens */
+    } 
+      
+    h1 {
+        font-size: 1.6rem; /* Shrink title slightly so it doesn't wrap awkwardly */
+        margin-bottom: 20px;
+    }
+
+    .number {
+        font-size: 1.8rem; /* Shrink the numbers so they never overflow the boxes */
+    }
+
+    .label {
+        font-size: 0.7rem; /* Make labels slightly smaller to match */
+        letter-spacing: 0.5px;
+    }
+    
+    .countdown {
+        gap: 8px; /* Squish the boxes slightly closer together */
+    }
+} 
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>🌅 Letné dobrodružstvá 🏝️</h1>
+        <h1>🌅 Čas na letné dobrodružstvá 🏝️</h1>
         
         <div class="input-group">
             <!-- Allows the user to select a specific date and time -->
@@ -115,25 +141,26 @@
         <div class="countdown">
             <div class="time-box">
                 <span class="number" id="days">00</span>
-                <span class="label">Days</span>
+                <span class="label">Dní</span>
             </div>
             <div class="time-box">
                 <span class="number" id="hours">00</span>
-                <span class="label">Hours</span>
+                <span class="label">Hodín</span>
             </div>
             <div class="time-box">
                 <span class="number" id="minutes">00</span>
-                <span class="label">Mins</span>
+                <span class="label">Minút</span>
             </div>
             <div class="time-box">
                 <span class="number" id="seconds">00</span>
-                <span class="label">Secs</span>
+                <span class="label">Sekúnd</span>
             </div>
         </div>
     </div>
 
     <script>
 // DOM Elements
+
 const dateInput = document.getElementById('target-date');
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
@@ -142,21 +169,20 @@ const secondsEl = document.getElementById('seconds');
 
 let countdownInterval;
 
-/*
 // 1. Check if a date is already saved in localStorage
 const savedDate = localStorage.getItem('userCountdownDate');
-
+/*
 if (savedDate) {
     // If a saved date exists, use it!
     dateInput.value = savedDate;
-} else {
+}else {
     // 2. Fallback: If no saved date, set default to tomorrow at this exact time
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     dateInput.value = tomorrow.toISOString().slice(0, 16);
 }
 */
-        
+
 let hasFired = false; // Prevents confetti from triggering repeatedly every second
 
 function updateCountdown() {
